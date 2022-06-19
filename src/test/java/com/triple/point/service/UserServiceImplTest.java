@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.util.UUID;
 
 @SpringBootTest
@@ -19,8 +18,6 @@ class UserServiceImplTest {
     UserService userService;
     @Autowired
     UserRepository userRepository;
-    @Autowired
-    EntityManager em;
 
     @Test
     public void 사용자_저장() throws Exception {
