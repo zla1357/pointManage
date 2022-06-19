@@ -1,11 +1,14 @@
 package com.triple.point.domain.dto;
 
+import com.triple.point.domain.ModelMapperUtils;
 import com.triple.point.domain.User;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.UUID;
 
 @Getter
+@NoArgsConstructor
+@Setter
 public class UserDTO {
 
     private UUID id;
@@ -18,5 +21,9 @@ public class UserDTO {
 
     public User mapToEntity() {
         return User.createUser(this.name);
+    }
+
+    public static UserDTO from(User user) {
+        return ModelMapperUtils.getModelMapper().map(user, UserDTO.class);
     }
 }

@@ -5,7 +5,7 @@ import com.triple.point.domain.dto.UserDTO;
 import com.triple.point.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -16,19 +16,29 @@ public class UserControllerImpl implements UserController{
     private final UserService userService;
 
     @Override
-    public String registryUser(@RequestBody String name) {
+    @PostMapping("user")
+    @ResponseBody
+    public String registryUser(@RequestParam String name) {
 
         UserDTO userDTO = new UserDTO(name);
-        userService.registryUser(userDTO.mapToEntity());
+        UUID uuid = userService.registryUser(userDTO.mapToEntity());
 
         return "OK";
     }
 
     @Override
-    public UserDTO getUser(UUID userId) {
+    @GetMapping("user")
+    @ResponseBody
+    public UserDTO getUser(@RequestParam String userId) {
 
-        User user = userService.getUser(userId);
+        UUID userUUID = UUID.fromString (userId
+                        .replaceFirst (
+                                "(\\p{XDigit}{8})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}+)",
+                                "$1-$2-$3-$4-$5"
+                        )
+        );
+        User user = userService.getUser(userUUID);
 
-        return null;
+        return UserDTO.from(user);
     }
 }
