@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -26,4 +27,25 @@ public class Review {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "place_id")
     private Place place;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Review review = (Review) o;
+        return Objects.equals(getId(), review.getId()) && Objects.equals(getUser(), review.getUser()) && Objects.equals(getPlace(), review.getPlace());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getUser(), getPlace());
+    }
+
+    public static Review createReview(User reviewUser, Place reviewPlace) {
+        Review review = new Review();
+        review.user = reviewUser;
+        review.place = reviewPlace;
+
+        return review;
+    }
 }
