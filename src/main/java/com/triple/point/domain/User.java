@@ -37,4 +37,11 @@ public class User {
     public int hashCode() {
         return Objects.hash(getId(), getPoint());
     }
+
+    public static User CreateUser() {
+        User user = new User();
+        user.point = 0;
+
+        return user;
+    }
 }
