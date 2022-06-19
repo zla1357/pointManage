@@ -1,7 +1,6 @@
 package com.triple.point.repository;
 
 import com.triple.point.domain.Place;
-import com.triple.point.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

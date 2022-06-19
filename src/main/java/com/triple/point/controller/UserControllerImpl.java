@@ -15,9 +15,9 @@ public class UserControllerImpl implements UserController{
 
     private final UserService userService;
 
-    @Override
     @PostMapping("user")
     @ResponseBody
+    @Override
     public String registryUser(@RequestParam String name) {
 
         UserDTO userDTO = new UserDTO(name);
@@ -26,9 +26,9 @@ public class UserControllerImpl implements UserController{
         return "OK";
     }
 
-    @Override
     @GetMapping("user")
     @ResponseBody
+    @Override
     public UserDTO getUser(@RequestParam String userId) {
 
         UUID userUUID = UUID.fromString (userId
