@@ -3,6 +3,7 @@ package com.triple.point.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +23,24 @@ public class Point {
     private String placeId;
     private String images;
     private int point;
+
+    @CreationTimestamp
     private LocalDateTime inputDate;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Point point1 = (Point) o;
+        return getPoint() == point1.getPoint() && Objects.equals(getId(), point1.getId()) && Objects.equals(getUserId(),
+                point1.getUserId()) && Objects.equals(getPlaceId(), point1.getPlaceId()) && Objects.equals(getImages(),
+                point1.getImages()) && Objects.equals(getInputDate(), point1.getInputDate());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getUserId(), getPlaceId(), getImages(), getPoint(), getInputDate());
+    }
 
     public Point (String userId, String placeId, String images) {
 
