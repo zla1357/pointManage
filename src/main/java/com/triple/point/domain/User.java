@@ -24,22 +24,24 @@ public class User {
     private UUID id;
 
     private int point;
+    private String name;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return getPoint() == user.getPoint() && Objects.equals(getId(), user.getId());
+        return getPoint() == user.getPoint() && Objects.equals(getId(), user.getId()) && Objects.equals(getName(), user.getName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getPoint());
+        return Objects.hash(getId(), getPoint(), getName());
     }
 
-    public static User CreateUser() {
+    public static User createUser(String name) {
         User user = new User();
+        user.name = name;
         user.point = 0;
 
         return user;

@@ -11,8 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 @Transactional
 class UserServiceImplTest {
@@ -27,7 +25,7 @@ class UserServiceImplTest {
     @Test
     public void 사용자_저장() throws Exception {
         // given
-        User user = User.CreateUser();
+        User user = User.createUser("khj");
 
         // when
         UUID saveId = userService.registryUser(user);
