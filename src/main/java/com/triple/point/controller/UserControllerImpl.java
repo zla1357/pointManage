@@ -31,12 +31,7 @@ public class UserControllerImpl implements UserController{
     @Override
     public UserDTO getUser(@RequestParam String userId) {
 
-        UUID userUUID = UUID.fromString (userId
-                        .replaceFirst (
-                                "(\\p{XDigit}{8})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}+)",
-                                "$1-$2-$3-$4-$5"
-                        )
-        );
+        UUID userUUID = UUIDConverter.convertFromString(userId);
         User user = userService.getUser(userUUID);
 
         return UserDTO.from(user);

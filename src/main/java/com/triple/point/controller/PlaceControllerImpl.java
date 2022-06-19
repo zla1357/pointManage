@@ -34,13 +34,8 @@ public class PlaceControllerImpl implements PlaceController {
     @Override
     public PlaceDTO getPlace(@RequestParam String placeId) {
 
-        UUID userUUID = UUID.fromString (placeId
-                .replaceFirst (
-                        "(\\p{XDigit}{8})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}+)",
-                        "$1-$2-$3-$4-$5"
-                )
-        );
-        Place place = placeService.getPlace(userUUID);
+        UUID placeUUID = UUIDConverter.convertFromString(placeId);
+        Place place = placeService.getPlace(placeUUID);
 
         return PlaceDTO.from(place);
     }
