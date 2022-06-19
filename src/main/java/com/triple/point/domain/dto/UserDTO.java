@@ -1,5 +1,6 @@
-package com.triple.point.domain;
+package com.triple.point.domain.dto;
 
+import com.triple.point.domain.User;
 import lombok.Getter;
 
 import java.util.UUID;

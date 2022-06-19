@@ -1,6 +1,6 @@
 package com.triple.point.controller;
 
-import com.triple.point.domain.UserDTO;
+import com.triple.point.domain.dto.UserDTO;
 
 import java.util.UUID;
 

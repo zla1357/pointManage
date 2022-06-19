@@ -1,7 +1,7 @@
 package com.triple.point.controller;
 
 import com.triple.point.domain.User;
-import com.triple.point.domain.UserDTO;
+import com.triple.point.domain.dto.UserDTO;
 import com.triple.point.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -26,6 +26,9 @@ public class UserControllerImpl implements UserController{
 
     @Override
     public UserDTO getUser(UUID userId) {
+
+        User user = userService.getUser(userId);
+
         return null;
     }
 }
