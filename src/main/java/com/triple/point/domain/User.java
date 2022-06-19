@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -23,4 +24,17 @@ public class User {
     private UUID id;
 
     private int point;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return getPoint() == user.getPoint() && Objects.equals(getId(), user.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getPoint());
+    }
 }
