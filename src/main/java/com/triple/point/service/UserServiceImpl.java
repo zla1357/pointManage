@@ -16,6 +16,7 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
 
     @Transactional
+    @Override
     public UUID registryUser(User user) {
         userRepository.registryUser(user);
 
