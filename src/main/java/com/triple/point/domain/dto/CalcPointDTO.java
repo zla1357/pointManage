@@ -1,7 +1,6 @@
 package com.triple.point.domain.dto;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
 public class CalcPointDTO {
