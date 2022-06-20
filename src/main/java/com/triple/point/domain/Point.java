@@ -47,11 +47,12 @@ public class Point {
         return Objects.hash(getId(), getReviewId(), getUserId(), getPlaceId(), getImages(), getPoint(), getInputDate());
     }
 
-    public Point (String reviewId, String userId, String placeId, String images) {
+    public Point (String reviewId, String userId, String placeId, String images, int point) {
 
         this.reviewId = reviewId;
         this.userId = userId;
         this.placeId = placeId;
         this.images = images;
+        this.point = point;
     }
 }
