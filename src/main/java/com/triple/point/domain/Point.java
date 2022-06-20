@@ -19,6 +19,7 @@ public class Point {
     @GeneratedValue
     private Long id;
 
+    private String reviewId;
     private String userId;
     private String placeId;
     private String images;
@@ -32,18 +33,23 @@ public class Point {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Point point1 = (Point) o;
-        return getPoint() == point1.getPoint() && Objects.equals(getId(), point1.getId()) && Objects.equals(getUserId(),
-                point1.getUserId()) && Objects.equals(getPlaceId(), point1.getPlaceId()) && Objects.equals(getImages(),
-                point1.getImages()) && Objects.equals(getInputDate(), point1.getInputDate());
+        return getPoint() == point1.getPoint()
+                && Objects.equals(getId(), point1.getId())
+                && Objects.equals(getReviewId(), point1.getReviewId())
+                && Objects.equals(getUserId(), point1.getUserId())
+                && Objects.equals(getPlaceId(), point1.getPlaceId())
+                && Objects.equals(getImages(), point1.getImages())
+                && Objects.equals(getInputDate(), point1.getInputDate());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUserId(), getPlaceId(), getImages(), getPoint(), getInputDate());
+        return Objects.hash(getId(), getReviewId(), getUserId(), getPlaceId(), getImages(), getPoint(), getInputDate());
     }
 
-    public Point (String userId, String placeId, String images) {
+    public Point (String reviewId, String userId, String placeId, String images) {
 
+        this.reviewId = reviewId;
         this.userId = userId;
         this.placeId = placeId;
         this.images = images;
