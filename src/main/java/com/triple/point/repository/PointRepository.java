@@ -7,5 +7,5 @@ import java.util.List;
 public interface PointRepository {
     public void registryPoint(Point point);
     public Point getPoint(Long id);
-    public List<Point> reviewsInPlace(String placeId);
+    public List<String> reviewsInPlace(String placeId);
 }

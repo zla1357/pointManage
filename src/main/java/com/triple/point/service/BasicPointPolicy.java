@@ -26,7 +26,7 @@ public class BasicPointPolicy implements PointPolicy {
 
     // 해당 장소에서 작성된 리뷰가 없으면 보너스 점수 부여
     private int bonusPoint(String placeId) {
-        List<Point> reviewsInPlace = pointService.reviewsInPlace(placeId);
+        List<String> reviewsInPlace = pointService.reviewsInPlace(placeId);
         return reviewsInPlace.size() > 0 ? 0 : 1;
     }
 

@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -24,5 +26,10 @@ public class PointServiceImpl implements PointService {
     @Override
     public Point getPoint(Long id) {
         return pointRepository.getPoint(id);
+    }
+
+    @Override
+    public List<String> reviewsInPlace(String placeId) {
+        return pointRepository.reviewsInPlace(placeId);
     }
 }
