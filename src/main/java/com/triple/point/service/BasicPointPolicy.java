@@ -1,8 +1,18 @@
 package com.triple.point.service;
 
+import com.triple.point.domain.Point;
 import com.triple.point.domain.dto.CalcPointDTO;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
+import java.util.List;
+
+@Component
+@RequiredArgsConstructor
 public class BasicPointPolicy implements PointPolicy {
+
+    private final PointService pointService;
+
     @Override
     public int calculatePoint(CalcPointDTO calcPointDTO) {
         int result = 0;
@@ -14,9 +24,10 @@ public class BasicPointPolicy implements PointPolicy {
         return result;
     }
 
+    // 해당 장소에서 작성된 리뷰가 없으면 보너스 점수 부여
     private int bonusPoint(String placeId) {
-        // TODO 보너스 포인트 계산
-        return 0;
+        List<Point> reviewsInPlace = pointService.reviewsInPlace(placeId);
+        return reviewsInPlace.size() > 0 ? 0 : 1;
     }
 
     private int photoPoint(String[] attachedPhotoIds) {
