@@ -27,6 +27,12 @@ public class BonusPointHist {
     @CreationTimestamp
     private LocalDateTime inputDate;
 
+    public BonusPointHist(String placeId, String reviewId, int placePoint) {
+        this.placeId = placeId;
+        this.reviewId = reviewId;
+        this.placePoint = placePoint;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

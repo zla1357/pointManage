@@ -32,6 +32,7 @@ class BasicPointPolicyTest {
         Assertions.assertThat(point).isEqualTo(3);
     }
 
+    // TODO 테스트 만들어야함
     @Test
     public void 보너스점수_없음() throws Exception {
         // given
