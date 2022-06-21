@@ -2,6 +2,7 @@ package com.triple.point.service;
 
 import com.triple.point.domain.BonusPointHist;
 import com.triple.point.domain.dto.CalcPointDTO;
+import com.triple.point.domain.dto.ReviewPointDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,13 @@ public class BasicPointPolicy implements PointPolicy {
                 + bonusPoint(calcPointDTO.getPlaceId());
     }
 
+    @Override
+    public ReviewPointDTO getPointDTO(CalcPointDTO calcPointDTO) {
+        return new ReviewPointDTO(contentPoint(calcPointDTO.getContent()),
+                photoPoint(calcPointDTO.getAttachedPhotoIds()),
+                bonusPoint(calcPointDTO.getPlaceId()));
+    }
+
     private int contentPoint(String content) {
         return content.length() > 0 ? 1 : 0;
     }
@@ -27,7 +35,7 @@ public class BasicPointPolicy implements PointPolicy {
         return attachedPhotoIds.length > 0 ? 1 : 0;
     }
 
-    // 해당 장소에서 작성된 리뷰가 없으면 보너스 점수 부여
+    // 해당 장소에서 작성된 리뷰가 있는지에 따라 보너스 점수 반환
     private int bonusPoint(String placeId) {
         BonusPointHist reviewsInPlace = bonusPointHistService.getRecentBonusPointHist(placeId);
 

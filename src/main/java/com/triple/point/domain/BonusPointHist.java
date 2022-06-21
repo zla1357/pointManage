@@ -1,5 +1,6 @@
 package com.triple.point.domain;
 
+import com.triple.point.domain.dto.EventDTO;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,6 +32,15 @@ public class BonusPointHist {
         this.placeId = placeId;
         this.reviewId = reviewId;
         this.placePoint = placePoint;
+    }
+
+    public static BonusPointHist createBonusPointHist(EventDTO eventDTO, int placePoint) {
+        BonusPointHist bonusPointHist = new BonusPointHist();
+        bonusPointHist.placeId = eventDTO.getPlaceId();
+        bonusPointHist.reviewId = eventDTO.getReviewId();
+        bonusPointHist.placePoint = placePoint;
+
+        return bonusPointHist;
     }
 
     @Override
