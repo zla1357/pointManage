@@ -21,4 +21,17 @@ public class BonusPointHistRepositoryImpl implements BonusPointHistRepository {
     public BonusPointHist getBonusPointHist(Long id) {
         return em.find(BonusPointHist.class, id);
     }
+
+    @Override
+    public BonusPointHist getRecentBonusPointHist(String placeId) {
+        return em.createQuery(
+                "select h " +
+                        "from BonusPointHist h " +
+                        "where h.placeId = :placeId " +
+                        "order by h.inputDate desc", BonusPointHist.class)
+                .setParameter("placeId", placeId)
+                .getResultStream()
+                .findFirst()
+                .orElse(null);
+    }
 }

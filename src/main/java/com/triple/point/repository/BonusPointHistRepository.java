@@ -5,4 +5,5 @@ import com.triple.point.domain.BonusPointHist;
 public interface BonusPointHistRepository {
     public void registryBonusPointHist(BonusPointHist bonusPointHist);
     public BonusPointHist getBonusPointHist(Long id);
+    public BonusPointHist getRecentBonusPointHist(String placeId);
 }

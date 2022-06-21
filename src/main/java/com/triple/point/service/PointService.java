@@ -7,5 +7,4 @@ import java.util.List;
 public interface PointService {
     public Long registryPoint(Point point);
     public Point getPoint(Long id);
-    public List<String> reviewsInPlace(String placeId);
 }

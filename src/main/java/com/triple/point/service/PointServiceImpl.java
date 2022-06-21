@@ -27,9 +27,4 @@ public class PointServiceImpl implements PointService {
     public Point getPoint(Long id) {
         return pointRepository.getPoint(id);
     }
-
-    @Override
-    public List<String> reviewsInPlace(String placeId) {
-        return pointRepository.reviewsInPlace(placeId);
-    }
 }

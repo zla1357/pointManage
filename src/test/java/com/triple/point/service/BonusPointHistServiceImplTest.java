@@ -28,4 +28,17 @@ class BonusPointHistServiceImplTest {
         // then
         Assertions.assertThat(bonusPointHist).isEqualTo(savePointHist);
     }
+
+    @Test
+    public void 해당장소의_가장최근포인트_조회() throws Exception {
+        // given
+        BonusPointHist bonusPointHist = new BonusPointHist(UUID.randomUUID().toString(), UUID.randomUUID().toString(), 1);
+        bonusPointHistService.registryBonusPointHist(bonusPointHist);
+
+        // when
+        BonusPointHist recentBonusPointHist = bonusPointHistService.getRecentBonusPointHist(bonusPointHist.getPlaceId());
+
+        // then
+        Assertions.assertThat(recentBonusPointHist.getPlacePoint()).isEqualTo(1);
+    }
 }
