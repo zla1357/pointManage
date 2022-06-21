@@ -17,8 +17,9 @@ public class BasicPointPolicy implements PointPolicy {
     public int calculatePoint(CalcPointDTO calcPointDTO) {
 
         return contentPoint(calcPointDTO.getContent())
-                + photoPoint(calcPointDTO.getAttachedPhotoIds())
-                + bonusPoint(calcPointDTO.getPlaceId());
+                + photoPoint(calcPointDTO.getAttachedPhotoIds());
+        // TODO 보너스 점수 루틴 수정 후 보너스 점수 부여해야함
+                //+ bonusPoint(calcPointDTO.getPlaceId());
     }
 
     private int contentPoint(String content) {
@@ -31,6 +32,7 @@ public class BasicPointPolicy implements PointPolicy {
 
     // 해당 장소에서 작성된 리뷰가 없으면 보너스 점수 부여
     private int bonusPoint(String placeId) {
+        // TODO 보너스 점수 부여 루틴 수정해야함
         List<String> reviewsInPlace = pointService.reviewsInPlace(placeId);
         return reviewsInPlace.size() > 0 ? 0 : 1;
     }

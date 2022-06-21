@@ -14,33 +14,29 @@ import java.util.Objects;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Point {
+public class BonusPointHist {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    private String userId;
-    private int pointAmount;
+    private String placeId;
+    private String reviewId;
+    private int placePoint;
 
     @CreationTimestamp
     private LocalDateTime inputDate;
-
-    public Point (String userId, int pointAmount) {
-        this.userId = userId;
-        this.pointAmount = pointAmount;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Point point = (Point) o;
-        return getPointAmount() == point.getPointAmount() && Objects.equals(getId(), point.getId()) && Objects.equals(getUserId(), point.getUserId()) && Objects.equals(getInputDate(), point.getInputDate());
+        BonusPointHist that = (BonusPointHist) o;
+        return getPlacePoint() == that.getPlacePoint() && Objects.equals(getId(), that.getId()) && Objects.equals(getPlaceId(), that.getPlaceId()) && Objects.equals(getReviewId(), that.getReviewId()) && Objects.equals(getInputDate(), that.getInputDate());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUserId(), getPointAmount(), getInputDate());
+        return Objects.hash(getId(), getPlaceId(), getReviewId(), getPlacePoint(), getInputDate());
     }
 }

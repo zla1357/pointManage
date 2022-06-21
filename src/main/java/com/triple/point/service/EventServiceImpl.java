@@ -32,8 +32,7 @@ public class EventServiceImpl implements EventService {
     }
 
     private Long addPoint(EventDTO eventDTO, int pointAmount) {
-        String imgList = String.join(",", eventDTO.getAttachedPhotoIds());
-        Point point = new Point(eventDTO.getReviewId(), eventDTO.getUserId(), eventDTO.getPlaceId(), imgList, pointAmount);
+        Point point = new Point(eventDTO.getUserId(), pointAmount);
         return pointService.registryPoint(point);
     }
 }

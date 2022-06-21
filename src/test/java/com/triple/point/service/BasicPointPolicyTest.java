@@ -35,19 +35,10 @@ class BasicPointPolicyTest {
     @Test
     public void 보너스점수_없음() throws Exception {
         // given
-        Point pointEntity = new Point(UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString(), null, 0);
-        pointService.registryPoint(pointEntity);
-
-        String[] imgList = {UUID.randomUUID().toString(), UUID.randomUUID().toString()};
-        EventDTO eventDTO = new EventDTO("REVIEW", Action.ADD, null, "좋았다", imgList, null, pointEntity.getPlaceId());
-
-        CalcPointDTO calcPointDTO = new CalcPointDTO(eventDTO);
-        BasicPointPolicy basicPointPolicy = new BasicPointPolicy(pointService);
 
         // when
-        int point = basicPointPolicy.calculatePoint(calcPointDTO);
 
         // then
-        Assertions.assertThat(point).isEqualTo(2);
+
     }
 }
