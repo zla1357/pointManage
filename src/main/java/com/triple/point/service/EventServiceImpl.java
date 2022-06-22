@@ -15,8 +15,9 @@ import org.springframework.stereotype.Service;
 public class EventServiceImpl implements EventService {
 
     private final PointService pointService;
-    private final PointPolicy pointPolicy;
     private final PointHistService pointHistService;
+    private final BonusPointHistService bonusPointHistService;
+    private final PointPolicy pointPolicy;
 
     @Override
     public void reviewEvent(EventDTO eventDTO) {
@@ -51,7 +52,8 @@ public class EventServiceImpl implements EventService {
     }
 
     private void addBonusPointHist(EventDTO eventDTO, ReviewPointDTO reviewPointDTO) {
-        BonusPointHist.createBonusPointHist(eventDTO, reviewPointDTO.getBonusPoint());
+        BonusPointHist bonusPointHist = BonusPointHist.createBonusPointHist(eventDTO, reviewPointDTO.getBonusPoint());
+        bonusPointHistService.registerBonusPointHist(bonusPointHist);
     }
 
     private void addPointHist(EventDTO eventDTO, ReviewPointDTO pointDTO) {
