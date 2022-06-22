@@ -41,7 +41,10 @@ public class EventServiceImpl implements EventService {
     // TODO PointHist 저장구문 추가해야함
     private void addPoint(EventDTO eventDTO, CalcPointDTO calcPointDTO, int pointAmount) {
 
-        addBonusPointHist(eventDTO, pointPolicy.getPointDTO(calcPointDTO));
+        ReviewPointDTO pointDTO = pointPolicy.getPointDTO(calcPointDTO);
+        if(pointDTO.getBonusPoint() > 0) {
+            addBonusPointHist(eventDTO, pointDTO);
+        }
         pointService.registryPoint(new Point(eventDTO.getUserId(), pointAmount));
     }
 
