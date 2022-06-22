@@ -2,7 +2,6 @@ package com.triple.point.service;
 
 import com.triple.point.domain.Action;
 import com.triple.point.domain.BonusPointHist;
-import com.triple.point.domain.Point;
 import com.triple.point.domain.dto.CalcPointDTO;
 import com.triple.point.domain.dto.EventDTO;
 import org.assertj.core.api.Assertions;
@@ -46,7 +45,7 @@ class BasicPointPolicyTest {
                 UUID.randomUUID().toString());
 
         BonusPointHist bonusPointHist = BonusPointHist.createBonusPointHist(eventDTO, 1);
-        Long saveBonusPointId = bonusPointHistService.registryBonusPointHist(bonusPointHist);
+        Long saveBonusPointId = bonusPointHistService.registerBonusPointHist(bonusPointHist);
 
         CalcPointDTO calcPointDTO = new CalcPointDTO(eventDTO);
         BasicPointPolicy basicPointPolicy = new BasicPointPolicy(bonusPointHistService);

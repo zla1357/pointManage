@@ -45,7 +45,7 @@ public class EventServiceImpl implements EventService {
         if(pointDTO.getBonusPoint() > 0) {
             addBonusPointHist(eventDTO, pointDTO);
         }
-        pointService.registryPoint(new Point(eventDTO.getUserId(), pointAmount));
+        pointService.registerPoint(new Point(eventDTO.getUserId(), pointAmount));
     }
 
     private void addBonusPointHist(EventDTO eventDTO, ReviewPointDTO reviewPointDTO) {

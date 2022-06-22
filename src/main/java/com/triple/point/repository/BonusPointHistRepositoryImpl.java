@@ -13,7 +13,7 @@ public class BonusPointHistRepositoryImpl implements BonusPointHistRepository {
     private final EntityManager em;
 
     @Override
-    public void registryBonusPointHist(BonusPointHist bonusPointHist) {
+    public void registerBonusPointHist(BonusPointHist bonusPointHist) {
         em.persist(bonusPointHist);
     }
 

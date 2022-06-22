@@ -13,7 +13,7 @@ public class PointRepositoryImpl implements PointRepository {
     private final EntityManager em;
 
     @Override
-    public void registryPoint(Point point) {
+    public void registerPoint(Point point) {
         em.persist(point);
     }
 

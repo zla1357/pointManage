@@ -33,7 +33,7 @@ class BonusPointHistServiceImplTest {
         BonusPointHist bonusPointHist = BonusPointHist.createBonusPointHist(eventDTO, 1);
 
         // when
-        Long bpHistId = bonusPointHistService.registryBonusPointHist(bonusPointHist);
+        Long bpHistId = bonusPointHistService.registerBonusPointHist(bonusPointHist);
         BonusPointHist savePointHist = bonusPointHistService.getBonusPointHist(bpHistId);
 
         // then
@@ -53,7 +53,7 @@ class BonusPointHistServiceImplTest {
                 UUID.randomUUID().toString());
 
         BonusPointHist bonusPointHist = BonusPointHist.createBonusPointHist(eventDTO, 1);
-        bonusPointHistService.registryBonusPointHist(bonusPointHist);
+        bonusPointHistService.registerBonusPointHist(bonusPointHist);
 
         // when
         BonusPointHist recentBonusPointHist = bonusPointHistService.getRecentBonusPointHist(bonusPointHist.getPlaceId());

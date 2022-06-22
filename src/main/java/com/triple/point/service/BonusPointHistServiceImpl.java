@@ -15,8 +15,8 @@ public class BonusPointHistServiceImpl implements BonusPointHistService {
 
     @Transactional
     @Override
-    public Long registryBonusPointHist(BonusPointHist bonusPointHist) {
-        bonusPointHistRepository.registryBonusPointHist(bonusPointHist);
+    public Long registerBonusPointHist(BonusPointHist bonusPointHist) {
+        bonusPointHistRepository.registerBonusPointHist(bonusPointHist);
 
         return bonusPointHist.getId();
     }

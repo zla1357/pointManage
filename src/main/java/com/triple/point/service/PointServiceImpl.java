@@ -6,8 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -17,8 +15,8 @@ public class PointServiceImpl implements PointService {
 
     @Override
     @Transactional
-    public Long registryPoint(Point point) {
-        pointRepository.registryPoint(point);
+    public Long registerPoint(Point point) {
+        pointRepository.registerPoint(point);
 
         return point.getId();
     }

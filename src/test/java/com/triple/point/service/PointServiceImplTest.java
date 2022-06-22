@@ -1,7 +1,6 @@
 package com.triple.point.service;
 
 import com.triple.point.domain.Point;
-import com.triple.point.repository.PointRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ class PointServiceImplTest {
         Point point = new Point(UUID.randomUUID().toString(), 0);
 
         // when
-        Long savePointId = pointService.registryPoint(point);
+        Long savePointId = pointService.registerPoint(point);
         Point savePoint = pointService.getPoint(savePointId);
 
         // then
