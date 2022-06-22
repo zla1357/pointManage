@@ -21,6 +21,7 @@ public class BonusPointHist {
     @GeneratedValue
     private Long id;
 
+    private String userId;
     private String placeId;
     private String reviewId;
     private int placePoint;
@@ -28,16 +29,11 @@ public class BonusPointHist {
     @CreationTimestamp
     private LocalDateTime inputDate;
 
-    public BonusPointHist(String placeId, String reviewId, int placePoint) {
-        this.placeId = placeId;
-        this.reviewId = reviewId;
-        this.placePoint = placePoint;
-    }
-
     public static BonusPointHist createBonusPointHist(EventDTO eventDTO, int placePoint) {
         BonusPointHist bonusPointHist = new BonusPointHist();
         bonusPointHist.placeId = eventDTO.getPlaceId();
         bonusPointHist.reviewId = eventDTO.getReviewId();
+        bonusPointHist.userId = eventDTO.getUserId();
         bonusPointHist.placePoint = placePoint;
 
         return bonusPointHist;

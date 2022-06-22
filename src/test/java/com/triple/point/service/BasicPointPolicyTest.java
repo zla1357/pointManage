@@ -36,11 +36,17 @@ class BasicPointPolicyTest {
     @Test
     public void 보너스점수_없음() throws Exception {
         // given
-        BonusPointHist bonusPointHist = new BonusPointHist(UUID.randomUUID().toString(), UUID.randomUUID().toString(), 1);
-        Long saveBonusPointId = bonusPointHistService.registryBonusPointHist(bonusPointHist);
-
         String[] imgList = {UUID.randomUUID().toString(), UUID.randomUUID().toString()};
-        EventDTO eventDTO = new EventDTO("REVIEW", Action.ADD, null, "좋았다", imgList, null, bonusPointHist.getPlaceId());
+        EventDTO eventDTO = new EventDTO("REVIEW",
+                Action.ADD,
+                UUID.randomUUID().toString(),
+                "좋았다",
+                imgList,
+                UUID.randomUUID().toString(),
+                UUID.randomUUID().toString());
+
+        BonusPointHist bonusPointHist = BonusPointHist.createBonusPointHist(eventDTO, 1);
+        Long saveBonusPointId = bonusPointHistService.registryBonusPointHist(bonusPointHist);
 
         CalcPointDTO calcPointDTO = new CalcPointDTO(eventDTO);
         BasicPointPolicy basicPointPolicy = new BasicPointPolicy(bonusPointHistService);
