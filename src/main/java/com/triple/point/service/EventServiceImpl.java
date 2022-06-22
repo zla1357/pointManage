@@ -3,6 +3,7 @@ package com.triple.point.service;
 import com.triple.point.domain.Action;
 import com.triple.point.domain.BonusPointHist;
 import com.triple.point.domain.Point;
+import com.triple.point.domain.PointHist;
 import com.triple.point.domain.dto.CalcPointDTO;
 import com.triple.point.domain.dto.EventDTO;
 import com.triple.point.domain.dto.ReviewPointDTO;
@@ -14,8 +15,8 @@ import org.springframework.stereotype.Service;
 public class EventServiceImpl implements EventService {
 
     private final PointService pointService;
-
     private final PointPolicy pointPolicy;
+    private final PointHistService pointHistService;
 
     @Override
     public void reviewEvent(EventDTO eventDTO) {
@@ -38,17 +39,27 @@ public class EventServiceImpl implements EventService {
         }
     }
 
-    // TODO PointHist 저장구문 추가해야함
     private void addPoint(EventDTO eventDTO, CalcPointDTO calcPointDTO, int pointAmount) {
 
         ReviewPointDTO pointDTO = pointPolicy.getPointDTO(calcPointDTO);
         if(pointDTO.getBonusPoint() > 0) {
             addBonusPointHist(eventDTO, pointDTO);
         }
+
+        addPointHist(eventDTO, pointDTO);
         pointService.registerPoint(new Point(eventDTO.getUserId(), pointAmount));
     }
 
     private void addBonusPointHist(EventDTO eventDTO, ReviewPointDTO reviewPointDTO) {
         BonusPointHist.createBonusPointHist(eventDTO, reviewPointDTO.getBonusPoint());
+    }
+
+    private void addPointHist(EventDTO eventDTO, ReviewPointDTO pointDTO) {
+        PointHist pointHist = PointHist.createPointHist(eventDTO.getUserId(),
+                eventDTO.getReviewId(),
+                pointDTO.getContentPoint(),
+                pointDTO.getImagePoint());
+
+        pointHistService.registerPointHist(pointHist);
     }
 }
