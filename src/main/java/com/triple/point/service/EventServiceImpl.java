@@ -38,16 +38,21 @@ public class EventServiceImpl implements EventService {
         }
     }
 
+    // 포인트 신규 저장
     private void addPoint(EventDTO eventDTO, CalcPointDTO calcPointDTO) {
-        int pointAmount = pointPolicy.calculatePoint(calcPointDTO);
-
         ReviewPointDTO pointDTO = pointPolicy.getPointDTO(calcPointDTO);
-        if(pointDTO.getBonusPoint() > 0) {
+
+        int pointAmount = pointPolicy.calculatePoint(calcPointDTO);
+        if(isBonusExist(pointDTO)) {
             addBonusPointHist(eventDTO, pointDTO);
         }
 
         addPointHist(eventDTO, pointDTO);
         pointService.registerPoint(new Point(eventDTO.getUserId(), pointAmount));
+    }
+
+    private boolean isBonusExist(ReviewPointDTO pointDTO) {
+        return pointDTO.getBonusPoint() > 0;
     }
 
     private void addBonusPointHist(EventDTO eventDTO, ReviewPointDTO reviewPointDTO) {
@@ -64,25 +69,25 @@ public class EventServiceImpl implements EventService {
         pointHistService.registerPointHist(pointHist);
     }
 
+    // 기존 포인트 수정
     private void modifyPoint(EventDTO eventDTO, CalcPointDTO calcPointDTO) {
-        calcModifyPoint(calcPointDTO);
+        int accPoint = calcAccumulatePoint(eventDTO, calcPointDTO);
 
-        //포인트 내역 저장
+        addPointHist(eventDTO, pointPolicy.getPointDTO(calcPointDTO));
 
-        accumulatePoint();;
+        accumulatePoint(eventDTO, accPoint);;
     }
 
-    // 최근 포인트 내역과 저장할 포인트를 비교하여 증감량 계산
-    private void calcModifyPoint(CalcPointDTO calcPointDTO) {
-        //가장 최근 포인트 내역 조회
+    private int calcAccumulatePoint(EventDTO eventDTO, CalcPointDTO calcPointDTO) {
+        PointHist recentPointHist = pointHistService.getRecentPointHist(eventDTO.getUserId(), eventDTO.getReviewId());
 
-
-        //파라미터로 넘어온 포인트와 비교하여 증감량 계산
+        return pointPolicy.calculatePoint(calcPointDTO) - (recentPointHist.getContentPoint() + recentPointHist.getImagePoint());
     }
 
-    private void accumulatePoint() {
-        //포인트 조회
-        //포인트 수정
-        //포인트 저장
+    private void accumulatePoint(EventDTO eventDTO, int pointAmount) {
+
+        Point point = pointService.getPointByUserId(eventDTO.getUserId());
+        point.accumulatePoint(pointAmount);
+        pointService.registerPoint(point);
     }
 }

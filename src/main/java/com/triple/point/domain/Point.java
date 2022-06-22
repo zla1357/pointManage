@@ -31,6 +31,10 @@ public class Point {
         this.pointAmount = pointAmount;
     }
 
+    public void accumulatePoint(int amount) {
+        this.pointAmount += amount;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -21,4 +21,16 @@ public class PointRepositoryImpl implements PointRepository {
     public Point getPoint(Long id) {
         return em.find(Point.class, id);
     }
+
+    @Override
+    public Point getPointByUserId(String userId) {
+        return em.createQuery(
+                "select p " +
+                        "from Point p " +
+                        "where p.userId = :userId ", Point.class)
+                .setParameter("userId", userId)
+                .getResultStream()
+                .findFirst()
+                .orElse(null);
+    }
 }
