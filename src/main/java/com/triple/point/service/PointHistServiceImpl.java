@@ -24,4 +24,9 @@ public class PointHistServiceImpl implements PointHistService {
     public PointHist getPointHist(Long id) {
         return pointHistRepository.getPointHist(id);
     }
+
+    @Override
+    public PointHist getRecentPointHist(String userId, String reviewId) {
+        return pointHistRepository.getRecentPointHist(userId, reviewId);
+    }
 }

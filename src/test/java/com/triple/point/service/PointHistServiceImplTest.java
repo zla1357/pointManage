@@ -30,4 +30,25 @@ class PointHistServiceImplTest {
         // then
         Assertions.assertThat(pointHist).isEqualTo(saveHist);
     }
+
+    @Test
+    public void 최근_포인트내역_조회() throws Exception {
+        // given
+        String userId1 = UUID.randomUUID().toString();
+        String reviewId1 = UUID.randomUUID().toString();
+
+        PointHist pointHist1 = PointHist.createPointHist(userId1, reviewId1, 1, 1);
+        pointHistService.registerPointHist(pointHist1);
+
+        PointHist pointHist2 = PointHist.createPointHist(userId1, reviewId1, 1, 0);
+        pointHistService.registerPointHist(pointHist2);
+
+        PointHist pointHist3 = PointHist.createPointHist(userId1, reviewId1, 0, 1);
+        pointHistService.registerPointHist(pointHist3);
+
+        // when
+        PointHist recentPointHist = pointHistService.getRecentPointHist(userId1, reviewId1);
+        // then
+        Assertions.assertThat(recentPointHist.equals(pointHist3)).isEqualTo(true);
+    }
 }

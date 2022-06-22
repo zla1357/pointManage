@@ -5,4 +5,5 @@ import com.triple.point.domain.PointHist;
 public interface PointHistRepository {
     void registerPointHist(PointHist pointHist);
     PointHist getPointHist(Long id);
+    PointHist getRecentPointHist(String userId, String reviewId);
 }

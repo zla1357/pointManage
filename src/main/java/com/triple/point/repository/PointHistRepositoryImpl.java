@@ -1,6 +1,5 @@
 package com.triple.point.repository;
 
-import com.triple.point.domain.Point;
 import com.triple.point.domain.PointHist;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -22,4 +21,21 @@ public class PointHistRepositoryImpl implements PointHistRepository {
     public PointHist getPointHist(Long id) {
         return em.find(PointHist.class, id);
     }
+
+    @Override
+    public PointHist getRecentPointHist(String userId, String reviewId) {
+        return em.createQuery(
+                "select h " +
+                        "from PointHist h " +
+                        "where userId = :userId " +
+                        "and reviewId = :reviewId " +
+                        "order by h.inputDate desc ",
+                PointHist.class)
+                .setParameter("userId", userId)
+                .setParameter("reviewId", reviewId)
+                .getResultStream()
+                .findFirst()
+                .orElse(null);
+    }
+
 }

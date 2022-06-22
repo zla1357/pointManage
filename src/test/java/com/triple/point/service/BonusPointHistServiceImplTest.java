@@ -55,10 +55,13 @@ class BonusPointHistServiceImplTest {
         BonusPointHist bonusPointHist = BonusPointHist.createBonusPointHist(eventDTO, 1);
         bonusPointHistService.registerBonusPointHist(bonusPointHist);
 
+        BonusPointHist bonusPointHist2 = BonusPointHist.createBonusPointHist(eventDTO, 0);
+        bonusPointHistService.registerBonusPointHist(bonusPointHist2);
+
         // when
         BonusPointHist recentBonusPointHist = bonusPointHistService.getRecentBonusPointHist(bonusPointHist.getPlaceId());
 
         // then
-        Assertions.assertThat(recentBonusPointHist.getPlacePoint()).isEqualTo(1);
+        Assertions.assertThat(recentBonusPointHist.getPlacePoint()).isEqualTo(0);
     }
 }
