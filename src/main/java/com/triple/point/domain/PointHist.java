@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -26,4 +27,27 @@ public class PointHist {
 
     @CreationTimestamp
     private LocalDateTime inputDate;
+
+    public static PointHist createPointHist(String userId, String reviewId, int contentPoint, int imagePoint) {
+        PointHist pointHist = new PointHist();
+        pointHist.userId = userId;
+        pointHist.reviewId = reviewId;
+        pointHist.contentPoint = contentPoint;
+        pointHist.imagePoint = imagePoint;
+
+        return pointHist;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PointHist pointHist = (PointHist) o;
+        return getContentPoint() == pointHist.getContentPoint() && getImagePoint() == pointHist.getImagePoint() && Objects.equals(getId(), pointHist.getId()) && Objects.equals(getUserId(), pointHist.getUserId()) && Objects.equals(getReviewId(), pointHist.getReviewId()) && Objects.equals(getInputDate(), pointHist.getInputDate());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getUserId(), getReviewId(), getContentPoint(), getImagePoint(), getInputDate());
+    }
 }
