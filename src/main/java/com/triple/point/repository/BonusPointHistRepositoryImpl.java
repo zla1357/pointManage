@@ -34,4 +34,19 @@ public class BonusPointHistRepositoryImpl implements BonusPointHistRepository {
                 .findFirst()
                 .orElse(null);
     }
+
+    @Override
+    public BonusPointHist getRecentUserBonusHist(String userId, String placeId) {
+        return em.createQuery(
+                "select h " +
+                        "from BonusPointHist h " +
+                        "where h.placeId = :placeId " +
+                        "and h.userId = :userId " +
+                        "order by h.inputDate desc ", BonusPointHist.class)
+                .setParameter("placeId", placeId)
+                .setParameter("userId", userId)
+                .getResultStream()
+                .findFirst()
+                .orElse(null);
+    }
 }

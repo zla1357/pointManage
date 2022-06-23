@@ -30,4 +30,9 @@ public class BonusPointHistServiceImpl implements BonusPointHistService {
     public BonusPointHist getRecentBonusPointHist(String placeId) {
         return bonusPointHistRepository.getRecentBonusPointHist(placeId);
     }
+
+    @Override
+    public BonusPointHist getRecentUserBonusHist(String userId, String placeId) {
+        return bonusPointHistRepository.getRecentUserBonusHist(userId, placeId);
+    }
 }
