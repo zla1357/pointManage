@@ -24,7 +24,7 @@ public class EventServiceImpl implements EventService {
 
         CalcPointDTO calcPointDTO = new CalcPointDTO(eventDTO);
 
-        // TODO MOD와 DELETE 추가
+        // DELETE 추가
         // ADD시 포인트 계산 후 저장
         // MOD시 보너스 포인트는 저장할 필요 없음
         // DELETE시 Point에서 해당 리뷰의 점수 및 보너스 점수만큼 빼고
@@ -41,23 +41,18 @@ public class EventServiceImpl implements EventService {
     // 포인트 신규 저장
     private void addPoint(EventDTO eventDTO, CalcPointDTO calcPointDTO) {
         ReviewPointDTO pointDTO = pointPolicy.getPointDTO(calcPointDTO);
-
         int pointAmount = pointPolicy.calculatePoint(calcPointDTO);
-        if(isBonusExist(pointDTO)) {
-            addBonusPointHist(eventDTO, pointDTO);
-        }
 
+        addBonusHistIfExist(eventDTO, pointDTO);
         addPointHist(eventDTO, pointDTO);
-        pointService.registerPoint(new Point(eventDTO.getUserId(), pointAmount));
+        registerUserPoint(eventDTO, pointAmount);
     }
 
-    private boolean isBonusExist(ReviewPointDTO pointDTO) {
-        return pointDTO.getBonusPoint() > 0;
-    }
-
-    private void addBonusPointHist(EventDTO eventDTO, ReviewPointDTO reviewPointDTO) {
-        BonusPointHist bonusPointHist = BonusPointHist.createBonusPointHist(eventDTO, reviewPointDTO.getBonusPoint());
-        bonusPointHistService.registerBonusPointHist(bonusPointHist);
+    private void addBonusHistIfExist(EventDTO eventDTO, ReviewPointDTO reviewPointDTO) {
+        if(isBonusExist(reviewPointDTO)) {
+            BonusPointHist bonusPointHist = BonusPointHist.createBonusPointHist(eventDTO, reviewPointDTO.getBonusPoint());
+            bonusPointHistService.registerBonusPointHist(bonusPointHist);
+        }
     }
 
     private void addPointHist(EventDTO eventDTO, ReviewPointDTO pointDTO) {
@@ -67,6 +62,25 @@ public class EventServiceImpl implements EventService {
                 pointDTO.getImagePoint());
 
         pointHistService.registerPointHist(pointHist);
+    }
+
+    private void registerUserPoint(EventDTO eventDTO, int pointAmount) {
+        if(userHavePoint(eventDTO.getUserId())) {
+            accumulatePoint(eventDTO, pointAmount);
+        } else{
+            pointService.registerPoint(new Point(eventDTO.getUserId(), pointAmount));
+        }
+    }
+
+    private boolean userHavePoint(String userId) {
+
+        Point userPoint = pointService.getPointByUserId(userId);
+
+        return userPoint != null;
+    }
+
+    private boolean isBonusExist(ReviewPointDTO pointDTO) {
+        return pointDTO.getBonusPoint() > 0;
     }
 
     // 기존 포인트 수정
