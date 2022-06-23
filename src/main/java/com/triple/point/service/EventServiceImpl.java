@@ -24,11 +24,6 @@ public class EventServiceImpl implements EventService {
 
         CalcPointDTO calcPointDTO = new CalcPointDTO(eventDTO);
 
-        // DELETE 추가
-        // ADD시 포인트 계산 후 저장
-        // MOD시 보너스 포인트는 저장할 필요 없음
-        // DELETE시 Point에서 해당 리뷰의 점수 및 보너스 점수만큼 빼고
-        // 모든 포인트 0, 보너스 포인트 0으로 저장
         if(Action.ADD.equals(eventDTO.getAction())) {
             addPoint(eventDTO, calcPointDTO);
         } else if(Action.MOD.equals(eventDTO.getAction())) {
