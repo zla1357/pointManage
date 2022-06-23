@@ -34,11 +34,12 @@ public class EventServiceImpl implements EventService {
         } else if(Action.MOD.equals(eventDTO.getAction())) {
             modifyPoint(eventDTO, calcPointDTO);
         } else if(Action.DELETE.equals(eventDTO.getAction())) {
-
+            deletePoint(eventDTO, calcPointDTO);
         }
     }
 
     // 포인트 신규 저장
+
     private void addPoint(EventDTO eventDTO, CalcPointDTO calcPointDTO) {
         ReviewPointDTO pointDTO = pointPolicy.getPointDTO(calcPointDTO);
         int pointAmount = pointPolicy.calculatePoint(calcPointDTO);
@@ -47,12 +48,15 @@ public class EventServiceImpl implements EventService {
         addPointHist(eventDTO, pointDTO);
         registerUserPoint(eventDTO, pointAmount);
     }
-
     private void addBonusHistIfExist(EventDTO eventDTO, ReviewPointDTO reviewPointDTO) {
         if(isBonusExist(reviewPointDTO)) {
-            BonusPointHist bonusPointHist = BonusPointHist.createBonusPointHist(eventDTO, reviewPointDTO.getBonusPoint());
-            bonusPointHistService.registerBonusPointHist(bonusPointHist);
+            addBonusPointHist(eventDTO, reviewPointDTO.getBonusPoint());
         }
+    }
+
+    private void addBonusPointHist(EventDTO eventDTO, int bonusPoint) {
+        BonusPointHist bonusPointHist = BonusPointHist.createBonusPointHist(eventDTO, bonusPoint);
+        bonusPointHistService.registerBonusPointHist(bonusPointHist);
     }
 
     private void addPointHist(EventDTO eventDTO, ReviewPointDTO pointDTO) {
@@ -91,7 +95,6 @@ public class EventServiceImpl implements EventService {
 
         accumulatePoint(eventDTO, accPoint);;
     }
-
     private int calcAccumulatePoint(EventDTO eventDTO, CalcPointDTO calcPointDTO) {
         PointHist recentPointHist = pointHistService.getRecentPointHist(eventDTO.getUserId(), eventDTO.getReviewId());
 
@@ -103,5 +106,44 @@ public class EventServiceImpl implements EventService {
         Point point = pointService.getPointByUserId(eventDTO.getUserId());
         point.accumulatePoint(pointAmount);
         pointService.registerPoint(point);
+    }
+
+    // 포인트 회수
+    private void deletePoint(EventDTO eventDTO, CalcPointDTO calcPointDTO) {
+        int recentBonusPoint = removeBonusPoint(eventDTO);
+        int recentPoint = removePointHist(eventDTO);
+        accumulatePoint(eventDTO, (recentPoint + recentBonusPoint) * -1);
+    }
+
+    private int removeBonusPoint(EventDTO eventDTO) {
+        if(isUserBonusExist(eventDTO)) {
+            addBonusPointHist(eventDTO, 0);
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    private boolean isUserBonusExist(EventDTO eventDTO) {
+        BonusPointHist recentUserBonusHist =
+                bonusPointHistService.getRecentUserBonusHist(eventDTO.getUserId(), eventDTO.getPlaceId());
+
+        return recentUserBonusHist != null && recentUserBonusHist.getPlacePoint() > 0;
+    }
+
+    // 0포인트로 포인트 획득 내역을 저장하고 가장 최근에 저장된 획득 내역 포인트를 반환한다.
+    private int removePointHist(EventDTO eventDTO) {
+        int recentPoint = getRecentPoint(eventDTO);
+
+        PointHist zeroPointHist =
+                PointHist.createPointHist(eventDTO.getUserId(), eventDTO.getReviewId(), 0, 0);
+        pointHistService.registerPointHist(zeroPointHist);
+
+        return recentPoint;
+    }
+
+    private int getRecentPoint(EventDTO eventDTO) {
+        PointHist recentPointHist = pointHistService.getRecentPointHist(eventDTO.getUserId(), eventDTO.getReviewId());
+        return recentPointHist.getContentPoint() + recentPointHist.getImagePoint();
     }
 }
