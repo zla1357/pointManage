@@ -32,7 +32,7 @@ public class BasicPointPolicy implements PointPolicy {
     }
 
     private int photoPoint(String[] attachedPhotoIds) {
-        return attachedPhotoIds.length > 0 ? 1 : 0;
+        return (attachedPhotoIds != null && attachedPhotoIds.length > 0) ? 1 : 0;
     }
 
     // 해당 장소에서 작성된 리뷰가 있는지에 따라 보너스 점수 반환
