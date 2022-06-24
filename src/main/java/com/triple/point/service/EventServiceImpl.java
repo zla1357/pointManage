@@ -34,7 +34,6 @@ public class EventServiceImpl implements EventService {
     }
 
     // 포인트 신규 저장
-
     private void addPoint(EventDTO eventDTO, CalcPointDTO calcPointDTO) {
         ReviewPointDTO pointDTO = pointPolicy.getPointDTO(calcPointDTO);
         int pointAmount = pointPolicy.calculatePoint(calcPointDTO);
@@ -110,6 +109,8 @@ public class EventServiceImpl implements EventService {
         accumulatePoint(eventDTO, (recentPoint + recentBonusPoint) * -1);
     }
 
+    // 보너스 포인트가 있으면 0으로 저장한다.
+    // 저장한 포인트를 반환한다.
     private int removeBonusPoint(EventDTO eventDTO) {
         if(isUserBonusExist(eventDTO)) {
             addBonusPointHist(eventDTO, 0);

@@ -14,7 +14,7 @@ public class PointManageControllerImpl implements PointManageController {
 
     private final EventService eventService;
 
-    @PostMapping("event")
+    @PostMapping("events")
     @ResponseBody
     @Override
     public String event(@RequestBody EventDTO eventDTO) {
