@@ -17,14 +17,14 @@ public class BasicPointPolicy implements PointPolicy {
 
         return contentPoint(calcPointDTO.getContent())
                 + photoPoint(calcPointDTO.getAttachedPhotoIds())
-                + bonusPoint(calcPointDTO.getPlaceId());
+                + newPlaceBonusPoint(calcPointDTO.getPlaceId());
     }
 
     @Override
     public ReviewPointDTO getPointDTO(CalcPointDTO calcPointDTO) {
         return new ReviewPointDTO(contentPoint(calcPointDTO.getContent()),
                 photoPoint(calcPointDTO.getAttachedPhotoIds()),
-                bonusPoint(calcPointDTO.getPlaceId()));
+                newPlaceBonusPoint(calcPointDTO.getPlaceId()));
     }
 
     private int contentPoint(String content) {
@@ -36,7 +36,7 @@ public class BasicPointPolicy implements PointPolicy {
     }
 
     // 해당 장소에서 작성된 리뷰가 있는지에 따라 보너스 점수 반환
-    private int bonusPoint(String placeId) {
+    private int newPlaceBonusPoint(String placeId) {
         BonusPointHist reviewsInPlace = bonusPointHistService.getRecentBonusPointHist(placeId);
 
         if(reviewsInPlace == null) {

@@ -1,9 +1,14 @@
 package com.triple.point.controller;
 
+import com.triple.point.domain.Point;
 import com.triple.point.domain.dto.EventDTO;
+import com.triple.point.domain.dto.UserPointDTO;
+import com.triple.point.service.BonusPointHistService;
 import com.triple.point.service.EventService;
+import com.triple.point.service.PointService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class PointManageControllerImpl implements PointManageController {
 
     private final EventService eventService;
+    private final PointService pointService;
+    private final BonusPointHistService bonusPointHistService;
 
     @PostMapping("events")
     @ResponseBody
@@ -20,5 +27,14 @@ public class PointManageControllerImpl implements PointManageController {
     public String event(@RequestBody EventDTO eventDTO) {
         eventService.reviewEvent(eventDTO);
         return null;
+    }
+
+    @GetMapping("point")
+    @ResponseBody
+    @Override
+    public UserPointDTO getUserPoint(String userId) {
+        Point userPoint = pointService.getPointByUserId(userId);
+
+        return new UserPointDTO(userPoint.getUserId(), userPoint.getPointAmount());
     }
 }
