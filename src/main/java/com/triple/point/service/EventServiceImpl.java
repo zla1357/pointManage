@@ -34,7 +34,8 @@ public class EventServiceImpl implements EventService {
     }
 
     // 포인트 신규 저장
-    private void addPoint(EventDTO eventDTO, CalcPointDTO calcPointDTO) {
+    private void addPoint(EventDTO eventDTO, CalcPointDTO calcPointDTO) throws IllegalArgumentException{
+        validationPlacePoint(eventDTO);
         ReviewPointDTO pointDTO = pointPolicy.getPointDTO(calcPointDTO);
         int pointAmount = pointPolicy.calculatePoint(calcPointDTO);
 
@@ -42,6 +43,17 @@ public class EventServiceImpl implements EventService {
         addPointHist(eventDTO, pointDTO);
         registerUserPoint(eventDTO, pointAmount);
     }
+
+    // 신규 저장일 때 같은 유저의 리뷰가 해당 장소에 있으면 안된다
+    private void validationPlacePoint(EventDTO eventDTO) {
+        BonusPointHist recentUserBonusHist =
+                bonusPointHistService.getRecentUserBonusHist(eventDTO.getUserId(), eventDTO.getPlaceId());
+
+        if(recentUserBonusHist != null && recentUserBonusHist.getPlacePoint() > 0) {
+            throw new IllegalArgumentException("해당 장소에는 이미 신규 리뷰가 등록되어 있습니다.");
+        }
+    }
+
     private void addBonusHistIfExist(EventDTO eventDTO, ReviewPointDTO reviewPointDTO) {
         if(isBonusExist(reviewPointDTO)) {
             addBonusPointHist(eventDTO, reviewPointDTO.getBonusPoint());
