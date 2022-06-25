@@ -3,7 +3,6 @@ package com.triple.point.controller;
 import com.triple.point.domain.Point;
 import com.triple.point.domain.dto.EventDTO;
 import com.triple.point.domain.dto.UserPointDTO;
-import com.triple.point.service.BonusPointHistService;
 import com.triple.point.service.EventService;
 import com.triple.point.service.PointService;
 import lombok.RequiredArgsConstructor;
@@ -19,14 +18,17 @@ public class PointManageControllerImpl implements PointManageController {
 
     private final EventService eventService;
     private final PointService pointService;
-    private final BonusPointHistService bonusPointHistService;
 
     @PostMapping("events")
     @ResponseBody
     @Override
     public String event(@RequestBody EventDTO eventDTO) {
-        eventService.reviewEvent(eventDTO);
-        return null;
+        try {
+            eventService.reviewEvent(eventDTO);
+        } catch(IllegalArgumentException e) {
+            return e.getMessage();
+        }
+        return "OK";
     }
 
     @GetMapping("point")
