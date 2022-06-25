@@ -1,8 +1,3 @@
-drop table bonus_point_hist;
-drop table point_hist;
-drop table point;
-drop table hibernate_sequence;
-
 create table hibernate_sequence (
    next_val bigint
 );
